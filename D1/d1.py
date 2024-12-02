@@ -57,8 +57,8 @@ def part2(fname):
 if __name__ == "__main__":
     
     print("AOC 2024 DAY 1")
-    out1 = part1("input1.txt")
+    out1 = part1("input.txt")
     print(f"Part 1: {out1}")
 
-    out2 = part2("input1.txt")
+    out2 = part2("input.txt")
     print(f"Part 2: {out2}")

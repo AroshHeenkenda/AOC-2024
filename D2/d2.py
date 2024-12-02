@@ -40,22 +40,6 @@ def part2(fname):
     return safe
 
 
-    # for report in reports:
-
-    #     r = dif(report)
-    #     # It is safe
-    #     if check(r):
-    #         safe += 1
-    #     else:
-    #         for i in range(len(r)):
-    #             new_report = [el for e, el in enumerate(report) if e != i]
-    #             new_r = dif(new_report)
-    #             if check(new_r):
-    #                 safe += 1
-    #                 break
-
-
-
 if __name__ == "__main__":
     
     print("AOC 2024 DAY 2")
