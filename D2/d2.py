@@ -1,9 +1,25 @@
 
 def part1(fname):
-    pass
+    
+    f = open(fname, "r")
+    reports = []
+
+    for line in f.readlines():
+
+        l = [int(num) for num in line.strip().split()]
+
+        for i in range(1, len(l)):
+            pass
+
+    print(reports)    
+
+    safe = 0
+
+    return safe
+
 
 def part2(fname):
-    pass
+    return None
 
 if __name__ == "__main__":
     
