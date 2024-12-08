@@ -59,19 +59,18 @@ def validate_update(rules, update):
             if in_degree[neighbor] == 0:
                 queue.append(neighbor)
     
-    # Check if the topological sort matches the update order
-    return sorted_order == update
+    return sorted_order
 
 
 def part1(fname):
     
-
     rules, updates = parseinput(fname)
 
     page_sum = 0
 
     for update in updates:
-        if validate_update(rules, update):
+        sorted_pages = validate_update(rules, update)
+        if  sorted_pages == update:
             page_sum += update[len(update)//2]
 
     return page_sum
@@ -79,7 +78,17 @@ def part1(fname):
 
 
 def part2(fname):
-    pass
+    
+    rules, updates = parseinput(fname)
+
+    page_sum = 0
+
+    for update in updates:
+        sorted_pages = validate_update(rules, update)
+        if  sorted_pages != update:
+            page_sum += sorted_pages[len(sorted_pages)//2]
+
+    return page_sum
 
 if __name__ == "__main__":
     
