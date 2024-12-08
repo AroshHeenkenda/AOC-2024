@@ -14,9 +14,9 @@ def parseinput(fname):
     
     return out
 
-def calibrate(nums):
-    n = len(nums)
 
+def calibrate_p1(nums):
+    n = len(nums)
     dp = []
     dp.append([nums[0]])
 
@@ -33,6 +33,24 @@ def calibrate(nums):
     return dp
 
 
+def calibrate_p2(nums):
+    n = len(nums)
+    dp = []
+    dp.append([nums[0]])
+
+    for i in range(1, n):
+        cur = nums[i]
+        next_dp = []
+
+        for d in dp[i-1]:
+            next_dp.append(d * cur)
+            next_dp.append(d + cur)
+            next_dp.append(int(str(d)+str(cur)))
+        
+        dp.append(set(next_dp))
+    
+    return dp
+
 
 def part1(fname):
 
@@ -40,7 +58,7 @@ def part1(fname):
     sum_eq = 0
 
     for target, nums in equations:
-        c = calibrate(nums)
+        c = calibrate_p1(nums)
         if target in c[-1]:
             sum_eq += target
 
@@ -48,7 +66,16 @@ def part1(fname):
 
 
 def part2(fname):
-    pass    
+
+    equations = parseinput(fname)
+    sum_eq = 0
+
+    for target, nums in equations:
+        c = calibrate_p2(nums)
+        if target in c[-1]:
+            sum_eq += target
+
+    return sum_eq   
 
 if __name__ == "__main__":
     
