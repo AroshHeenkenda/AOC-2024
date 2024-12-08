@@ -1,59 +1,78 @@
 
-def part1(fname):
-    
+from collections import defaultdict, deque
+
+def parseinput(fname):
+
     f = open(fname, "r")
     lines = f.readlines()
     f.close()
 
-    pairs = []
-    page_list = []
+    rules = []
+    updates = []
     passed = False
-    max_page = 0
 
     # Pre-processing
     for line in lines:
         l = line.strip()
 
+        # Check for space
         if l == "":
             passed = True
             continue
         
         # Passed the space
         if passed:
-            p = [int(num) for num in l.split(",")]
-            page_list.append(p)
+            # Page numbers
+            update = list(map(int, l.split(',')))
+            updates.append(update)
 
         else:
-            l1, l2 = l.split("|")
-            max_page = max(max_page, int(l1), int(l2))
-            pairs.append((int(l1), int(l2)))
+            # X, Y thing
+            rule = tuple(map(int, l.split('|')))
+            rules.append(rule)
 
-    page_dict = [ [False] * (max_page + 1)] * (max_page + 1)
+    return rules, updates
 
-    for pair in pairs:
 
-        p1, p2 = pair
-        
-        page_dict[p2][p1] = True
+def validate_update(rules, update):
     
+    # Extract relevant rules for the update
+    update_set = set(update)
+    relevant_rules = [(x, y) for x, y in rules if x in update_set and y in update_set]
+    
+    # Build a graph and in-degree count
+    graph = defaultdict(list)
+    in_degree = defaultdict(int)
+    for x, y in relevant_rules:
+        graph[x].append(y)
+        in_degree[y] += 1
+    
+    # Topological sorting using Kahn's algorithm
+    queue = deque([node for node in update if in_degree[node] == 0])
+    sorted_order = []
+    
+    while queue:
+        node = queue.popleft()
+        sorted_order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    
+    # Check if the topological sort matches the update order
+    return sorted_order == update
+
+
+def part1(fname):
+    
+
+    rules, updates = parseinput(fname)
+
     page_sum = 0
 
-    for pages in page_list:
-
-        valid = True
-        for i in range(len(pages)-1, -1, -1):
-
-            for j in range(len(pages)-2, -1, -1):
-                if page_dict[i][j]:
-                    valid = False
-                    break
-            
-            if not valid:
-                break
-        
-        if valid:
-            page_sum += pages[len(pages)//2]
-
+    for update in updates:
+        if validate_update(rules, update):
+            page_sum += update[len(update)//2]
 
     return page_sum
 
