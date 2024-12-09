@@ -22,6 +22,29 @@ def parseinput(fname):
     return out
 
 
+def parseinput2(fname):
+    f = open(fname, "r")
+    line = f.readline().strip()
+    f.close()
+
+    id = 0
+    ind = 0
+    out = []
+
+    while ind != len(line) - 1:
+
+        file = [id, int(line[ind])]
+        free = [".", int(line[ind + 1])]
+        out.append(file)
+        out.append(free)
+
+        ind += 2
+        id += 1
+    
+    out.append([id, int(line[len(line)-1])])
+    return out
+
+
 def part1(fname):
     
     space = parseinput(fname)
@@ -55,7 +78,23 @@ def part1(fname):
 
 
 def part2(fname):
-    pass
+    
+    space = parseinput2(fname)
+
+    cur_id = space[-1][0]
+    id_ind = len(space) - 1
+
+    while cur_id >= 0:
+
+
+
+    # checksum = 0
+    # for i in range(len(space)):
+    #     val = space[i]
+    #     if val != ".":
+    #         checksum += i * int(val)
+    
+    # return checksum
 
 if __name__ == "__main__":
     
@@ -63,5 +102,5 @@ if __name__ == "__main__":
     out1 = part1("input.txt")
     print(f"Part 1: {out1}")
 
-    out2 = part2("input.txt")
+    out2 = part2("test.txt")
     print(f"Part 2: {out2}")
